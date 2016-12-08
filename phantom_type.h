@@ -45,7 +45,8 @@ private:
 
 
 // Macro for concisely defining a tag class and type alias
-#define PHANTOM_TYPE(type_name, value_type, tag_type) class tag_type{}; using type_name = phantom_type<value_type, tag_type>;
+#define PHANTOM_TYPE(type_name, value_type, tag_type) using type_name = phantom_type<value_type, class tag_type>;
+#define PHANTOM_TYPE(type_name, value_type) using type_name = phantom_type<value_type, class type_name##_##value_type##_tag>;
 
 
 #endif//phantom_type_h
