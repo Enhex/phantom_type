@@ -35,9 +35,13 @@ template <typename T, typename Tag>
 class phantom_type
 {
 public:
-	phantom_type(T value) : value(value) {}
+	constexpr phantom_type(T value) : value(value) {}
+
 	operator T& () noexcept { return value; }
+	constexpr operator const T& () const noexcept { return value; }
+
 	T& get() noexcept { return value; }
+	constexpr const T& get() const noexcept { return value; }
 
 private:
 	T value;
@@ -45,8 +49,12 @@ private:
 
 
 // Macro for concisely defining a tag class and type alias
-#define PHANTOM_TYPE(type_name, value_type, tag_type) using type_name = phantom_type<value_type, class tag_type>;
-#define PHANTOM_TYPE(type_name, value_type) using type_name = phantom_type<value_type, class type_name##_##value_type##_tag>;
+#define EXPAND(x) x
+#define GET_PHANTOM_TYPE_MACRO(_1, _2, _3, NAME, ...) NAME
+#define PHANTOM_TYPE(...) EXPAND(GET_PHANTOM_TYPE_MACRO(__VA_ARGS__, PHANTOM_TYPE_3, PHANTOM_TYPE_2)(__VA_ARGS__))
+
+#define PHANTOM_TYPE_2(type_name, value_type) using type_name = phantom_type<value_type, class type_name##_##value_type##_tag>;
+#define PHANTOM_TYPE_3(type_name, value_type, tag_type) using type_name = phantom_type<value_type, class tag_type>;
 
 
 #endif//phantom_type_h

@@ -25,9 +25,9 @@ int main()
 {
 	A a = 0;
 	B b = 1;
-	C c = 2;
-	D d = 3;
-	E e = 4;
+	C c(2);
+	constexpr D d = 3;
+	constexpr E e = 4;
 	int i = 5;
 
 	add_to_A(a, 10);
