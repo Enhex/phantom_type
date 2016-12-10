@@ -18,7 +18,7 @@ using C = phantom_type<int, class C_tag>;
 
 // or use a macro to be more concise
 PHANTOM_TYPE(D, int, D_tag)
-PHANTOM_TYPE(E, int)
+PHANTOM_TYPE(E, std::string)
 
 // Takes A phantom type
 void add_to_A(A& a, int x)
@@ -32,7 +32,7 @@ int main()
 	B b = 1;
 	C c(2);
 	constexpr D d = 3;
-	constexpr E e = 4;
+	E e = "e";
 	int i = 5;
 
 	add_to_A(a, 10);
