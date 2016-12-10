@@ -40,10 +40,6 @@ public:
 	operator T& () noexcept { return value; }
 	constexpr operator const T& () const noexcept { return value; }
 
-	T& get() noexcept { return value; }
-	constexpr const T& get() const noexcept { return value; }
-
-private:
 	T value;
 };
 
