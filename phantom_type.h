@@ -35,7 +35,8 @@ template <typename T, typename Tag>
 class phantom_type
 {
 public:
-	constexpr phantom_type(T value) : value(value) {}
+	constexpr phantom_type(const T& value) : value(value) {}
+	constexpr phantom_type(T&& value) : value(std::move(value)) {}
 
 	operator T& () noexcept { return value; }
 	constexpr operator const T& () const noexcept { return value; }
