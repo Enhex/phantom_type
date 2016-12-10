@@ -49,7 +49,7 @@ public:
 #define GET_PHANTOM_TYPE_MACRO(_1, _2, _3, NAME, ...) NAME
 #define PHANTOM_TYPE(...) EXPAND(GET_PHANTOM_TYPE_MACRO(__VA_ARGS__, PHANTOM_TYPE_3, PHANTOM_TYPE_2)(__VA_ARGS__))
 
-#define PHANTOM_TYPE_2(type_name, value_type) using type_name = phantom_type<value_type, class type_name##_##value_type##_tag>;
+#define PHANTOM_TYPE_2(type_name, value_type) using type_name = phantom_type<value_type, class type_name##_tag_>;
 #define PHANTOM_TYPE_3(type_name, value_type, tag_type) using type_name = phantom_type<value_type, class tag_type>;
 
 
