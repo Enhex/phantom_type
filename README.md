@@ -20,6 +20,13 @@ using C = phantom_type<int, class C_tag>;
 PHANTOM_TYPE(D, int, D_tag)
 PHANTOM_TYPE(E, std::string)
 
+// Will be used to show accessing members
+struct S
+{
+	int m = 0;
+};
+PHANTOM_TYPE(PhantomS, S)
+
 // Takes A phantom type
 void add_to_A(A& a, int x)
 {
@@ -41,6 +48,10 @@ int main()
 	//b = c;			// Compilation error, no implicit conversion
 
 	std::cout << a << '\n';
+
+	// Access underlying type's members with -> operator
+	PhantomS ps = S();
+	std::cout << ps->m << '\n';
 }
 ```
 

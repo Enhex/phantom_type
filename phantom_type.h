@@ -41,6 +41,9 @@ public:
 	operator T& () noexcept { return value; }
 	constexpr operator const T& () const noexcept { return value; }
 
+	T* operator->() { return &value; }
+	constexpr const T* operator->() const { return &value; }
+
 	T value;
 };
 
