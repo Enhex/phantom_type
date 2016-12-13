@@ -35,12 +35,14 @@ template <typename T, typename Tag>
 class phantom_type
 {
 public:
-	constexpr phantom_type(const T& value) : value(value) {}
-	constexpr phantom_type(T&& value) : value(std::move(value)) {}
+	constexpr explicit phantom_type(const T& value) : value(value) {}
+	constexpr explicit phantom_type(T&& value) : value(std::move(value)) {}
 
+	// Convert to the underlying value
 	operator T& () noexcept { return value; }
 	constexpr operator const T& () const noexcept { return value; }
 
+	// Access members of the underlying type
 	T* operator->() { return &value; }
 	constexpr const T* operator->() const { return &value; }
 

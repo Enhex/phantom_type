@@ -23,28 +23,28 @@ struct S
 PHANTOM_TYPE(PhantomS, S)
 
 // Takes A phantom type
-void add_to_A(A& a, int x)
+void add_to_A(A& a, A a2, int x)
 {
-	a += x;
+	a += a2 + x;
 }
 
 int main()
 {
-	A a = 0;
-	B b = 1;
+	A a(0);
+	B b(1);
 	C c(2);
-	constexpr D d = 3;
-	E e = "e";
+	constexpr D d(3);
+	E e("e");
 	int i = 5;
 
-	add_to_A(a, 10);
-	//add_to_A(b, 10);	// Compilation error, A and B are different types
-	//add_to_A(i, 10);	// Compilation error, A and int are different types
-	//b = c;			// Compilation error, no implicit conversion
+	add_to_A(a, a, 10);
+	//add_to_A(b, b, 10);	// Compilation error, A and B are different types
+	//add_to_A(i, i, 10);	// Compilation error, A and int are different types
+	//b = c;				// Compilation error, no implicit conversion
 
 	std::cout << a << '\n';
 
 	// Access underlying type's members with -> operator
-	PhantomS ps = S();
+	auto ps = PhantomS(S());
 	std::cout << ps->m << '\n';
 }
