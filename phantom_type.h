@@ -31,7 +31,7 @@ SOFTWARE.
 Phantom type template class.
 Use an empty class as a Tag to create a new phantom type for T.
 */
-template <typename T, typename Tag>
+template <typename T>
 class phantom_type
 {
 public:
@@ -51,12 +51,11 @@ public:
 
 
 // Macro for concisely defining a tag class and type alias
-#define EXPAND(x) x
-#define GET_PHANTOM_TYPE_MACRO(_1, _2, _3, NAME, ...) NAME
-#define PHANTOM_TYPE(...) EXPAND(GET_PHANTOM_TYPE_MACRO(__VA_ARGS__, PHANTOM_TYPE_3, PHANTOM_TYPE_2)(__VA_ARGS__))
-
-#define PHANTOM_TYPE_2(type_name, value_type) using type_name = phantom_type<value_type, class type_name##_tag_>;
-#define PHANTOM_TYPE_3(type_name, value_type, tag_type) using type_name = phantom_type<value_type, class tag_type>;
+#define PHANTOM_TYPE(type_name, value_type) \
+struct type_name : phantom_type<value_type> \
+{\
+    using phantom_type::phantom_type;\
+};
 
 
 #endif//phantom_type_h

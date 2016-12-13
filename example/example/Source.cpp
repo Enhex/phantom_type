@@ -2,18 +2,13 @@
 #include <iostream>
 
 
-// Define tag classes that will be used to create different phantom types
-class A_tag {};
-class B_tag {};
-
 // Create phantom types using the value type and tag type
-using A = phantom_type<int, A_tag>;
-using B = phantom_type<int, B_tag>;
-using C = phantom_type<int, class C_tag>;
+struct A : phantom_type<int> { using phantom_type::phantom_type; };
+struct B : phantom_type<int> { using phantom_type::phantom_type; };
 
 // or use a macro to be more concise
-PHANTOM_TYPE(D, int, D_tag)
-PHANTOM_TYPE(E, std::string)
+PHANTOM_TYPE(C, int)
+PHANTOM_TYPE(D, std::string)
 
 // Will be used to show accessing members
 struct S
@@ -32,10 +27,9 @@ int main()
 {
 	A a(0);
 	B b(1);
-	C c(2);
-	constexpr D d(3);
-	E e("e");
-	int i = 5;
+	constexpr C c(2);
+	D d("c");
+	int i = 3;
 
 	add_to_A(a, a, 10);
 	//add_to_A(b, b, 10);	// Compilation error, A and B are different types
