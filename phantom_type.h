@@ -29,7 +29,6 @@ SOFTWARE.
 
 /*
 Phantom type template class.
-Use an empty class as a Tag to create a new phantom type for T.
 */
 template <typename T>
 class phantom_type
@@ -50,7 +49,7 @@ public:
 };
 
 
-// Macro for concisely defining a tag class and type alias
+// Macro for concisely defining a phantom type
 #define PHANTOM_TYPE(type_name, value_type) \
 struct type_name : phantom_type<value_type> \
 {\

@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-// Create phantom types using the value type and tag type
+// Create phantom types
 struct A : phantom_type<int> { using phantom_type::phantom_type; };
 struct B : phantom_type<int> { using phantom_type::phantom_type; };
 
