@@ -27,13 +27,15 @@ SOFTWARE.
 #define phantom_type_h
 
 
+#include <type_traits>
+
+
 /*
 Phantom type template class.
 */
-template <typename T>
-class phantom_type
+template <typename T, typename enable = void>
+struct phantom_type
 {
-public:
 	constexpr explicit phantom_type(const T& value) : value(value) {}
 	constexpr explicit phantom_type(T&& value) : value(std::move(value)) {}
 
@@ -46,6 +48,16 @@ public:
 	constexpr const T* operator->() const { return &value; }
 
 	T value;
+};
+
+// Specialize for class types to use inheritance
+template <typename T>
+struct phantom_type<T, typename std::enable_if_t<std::is_class<T>::value>> : T
+{
+	constexpr explicit phantom_type(const T& value) : T(value) {}
+	constexpr explicit phantom_type(T&& value) : T(std::move(value)) {}
+
+	using T::T;
 };
 
 
