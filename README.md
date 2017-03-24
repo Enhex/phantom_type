@@ -3,51 +3,25 @@ Header for creating phantom types.
 
 ## Example
 ```C++
-#include "../../phantom_type.h"
+#include <phantom_type.h>
 #include <iostream>
 
+PHANTOM_TYPE(PhantomInt, int)
 
-// Create phantom types
-struct A : phantom_type<int> { using phantom_type::phantom_type; };
-struct B : phantom_type<int> { using phantom_type::phantom_type; };
-
-// or use a macro to be more concise
-PHANTOM_TYPE(C, int)
-PHANTOM_TYPE(D, std::string)
-
-// Will be used to show accessing members
-struct S
-{
-	int m = 0;
-};
-PHANTOM_TYPE(PhantomS, S)
-
-// Takes A phantom type
-void add_to_A(A& a, A a2, int x)
-{
-	a += a2 + x;
+void print(PhantomInt& x) {
+	std::cout << x << std::endl;
 }
 
 int main()
 {
-	A a(0);
-	B b(1);
-	constexpr C c(2);
-	D d("c");
-	int i = 3;
+	int i = -1;
+	PhantomInt pi(1);
 
-	add_to_A(a, a, 10);
-	//add_to_A(b, b, 10);	// Compilation error, A and B are different types
-	//add_to_A(i, i, 10);	// Compilation error, A and int are different types
-	//b = c;				// Compilation error, no implicit conversion
-
-	std::cout << a << '\n';
-
-	// Access underlying type's members with -> operator
-	auto ps = PhantomS(S());
-	std::cout << ps->m << '\n';
+	print(pi);
+	//print(i);	// Compilation error, PhantomInt and int are different types
 }
 ```
+For more examples see [this](example/example/Source.cpp).
 
 ## License
 MIT
