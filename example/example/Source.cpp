@@ -45,7 +45,7 @@ int main()
 	std::cout << a << '\n';
 
 	// Access underlying type's members
-	auto ps = PhantomS(S());
+	PhantomS ps;
 	std::cout << ps.m << '\n';
 
 	S s;
