@@ -28,6 +28,7 @@ SOFTWARE.
 
 
 #include <type_traits>
+#include <utility>
 
 
 /*
@@ -54,8 +55,6 @@ struct phantom_type<T, typename std::enable_if_t<std::is_class<T>::value>> : T
 	phantom_type() = default;
 	constexpr explicit phantom_type(const T& value) : T(value) {}
 	constexpr explicit phantom_type(T&& value) : T(std::move(value)) {}
-
-	using T::T;
 };
 
 
