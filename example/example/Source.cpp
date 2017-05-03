@@ -3,8 +3,8 @@
 
 
 // Create phantom types
-struct A : phantom_type<int> { using phantom_type::phantom_type; };
-struct B : phantom_type<int> { using phantom_type::phantom_type; };
+struct A : phantom_type<int, A> { using phantom_type::phantom_type; };
+struct B : phantom_type<int, B> { using phantom_type::phantom_type; };
 
 // or use a macro to be more concise
 PHANTOM_TYPE(C, int)
@@ -59,4 +59,12 @@ int main()
 	//add_to_PhantomS(ps, s, ps);
 	//add_to_PhantomS(s, ps, ps);
 	add_to_PhantomS(ps, ps, ps);
+
+	// operators
+	C c1(1), c2(2);
+	c1 = c2 + c2;
+	c1 = c2 - c2;
+	c1 = c2 * c2;
+	c1 = c2 / c2;
+	c1 += c2;
 }

@@ -34,23 +34,68 @@ SOFTWARE.
 /*
 Phantom type template class.
 */
-template <typename T, typename enable = void>
+template <typename T, typename Derived, typename enable = void>
 struct phantom_type
 {
 	phantom_type() = default;
 	constexpr explicit phantom_type(const T& value) : value(value) {}
 	constexpr explicit phantom_type(T&& value) : value(std::move(value)) {}
 
+	T value;
+
 	// Implicitly convert to the underlying value
 	operator T& () noexcept { return value; }
 	constexpr operator const T& () const noexcept { return value; }
 
-	T value;
+	// Operators
+	T& operator++() { return ++value; }
+	T& operator++(int) { return value++; }
+
+	T& operator--() { return --value; }
+	T& operator--(int) { return value--; }
+
+	// Operators using derived type
+	constexpr auto operator+(const Derived& rhs) const {
+		return Derived(value + rhs.value);
+	}
+
+	constexpr auto operator-(const Derived& rhs) const {
+		return Derived(value - rhs.value);
+	}
+
+	constexpr auto operator*(const Derived& rhs) const {
+		return Derived(value * rhs.value);
+	}
+
+	constexpr auto operator/(const Derived& rhs) const {
+		return Derived(value / rhs.value);
+	}
+
+
+	auto& operator+=(const Derived& rhs) {
+		value += rhs.value;
+		return static_cast<Derived&>(*this);
+	}
+
+	auto& operator-=(const Derived& rhs) {
+		value -= rhs.value;
+		return static_cast<Derived&>(*this);
+	}
+
+	auto& operator*=(const Derived& rhs) {
+		value *= rhs.value;
+		return static_cast<Derived&>(*this);
+	}
+
+	auto& operator/=(const Derived& rhs) {
+		value /= rhs.value;
+		return static_cast<Derived&>(*this);
+	}
 };
 
 // Specialize for class types to use inheritance
-template <typename T>
-struct phantom_type<T, typename std::enable_if_t<std::is_class<T>::value>> : T
+template <typename T, typename Derived>
+struct phantom_type<T, typename Derived, typename std::enable_if_t<std::is_class<T>::value>> : T
 {
 	phantom_type() = default;
 	constexpr explicit phantom_type(const T& value) : T(value) {}
@@ -60,7 +105,7 @@ struct phantom_type<T, typename std::enable_if_t<std::is_class<T>::value>> : T
 
 // Macro for concisely defining a phantom type
 #define PHANTOM_TYPE(type_name, value_type) \
-struct type_name : phantom_type<value_type> \
+struct type_name : phantom_type<value_type, type_name> \
 {\
     using phantom_type::phantom_type;\
 };
